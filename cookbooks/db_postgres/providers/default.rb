@@ -104,12 +104,12 @@ end
 action :set_privileges do
   bash "Check_REBOOT" do
     code <<-EOH
-	boot_state = `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js`
+	boot_state=`sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js`
 	echo "RAJESH=$boot_state"
       if test "$boot_state" = "true" ; then
         echo "Skip on reboot."
         logger -t RightScale "Skipping for a reboot."
-        exit 0 # Leave with a smile ...
+        exit 1 # Leave with a smile ...
       fi
     EOH
   end
