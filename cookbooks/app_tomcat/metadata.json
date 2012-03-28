@@ -1,0 +1,239 @@
+{
+  "platforms": {
+  },
+  "description": "Installs the tomcat application server.",
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "recipes": {
+    "app_tomcat::setup_monitoring": "Install collectd monitoring for tomcat.",
+    "app_tomcat::setup_tomcat_configs": "Configure tomcat.",
+    "app_tomcat::setup_db_connection": "Set up the MySQL database db.tomcat connection file.",
+    "app_tomcat::do_update_code": "Update application source files from the remote repository.",
+    "app_tomcat::default": "Installs the tomcat application server."
+  },
+  "long_description": "= RightScale App Tomcat Cookbook (Beta)\n\n== DESCRIPTION:\n\n== DETAILS:\n\n== REQUIREMENTS:\n\n== SETUP: \n\n== USAGE:\n\n== KNOWN LIMITATIONS:\n",
+  "providing": {
+  },
+  "version": "0.1.1",
+  "attributes": {
+    "tomcat/db_name": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::setup_db_connection"
+      ],
+      "display_name": "Database Name",
+      "description": "Enter the name of the MySQL database to use. Ex: mydatabase"
+    },
+    "tomcat/code": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "hash",
+      "recipes": [
+
+      ],
+      "display_name": "Tomcat Application Code"
+    },
+    "tomcat/code/branch": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "master",
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code",
+        "app_tomcat::default"
+      ],
+      "display_name": "Repository Branch",
+      "description": "The name of the branch within the git repository where the application code should be pulled from. Ex: mybranch"
+    },
+    "tomcat/code/svn_username": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "",
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code"
+      ],
+      "display_name": "SVN username",
+      "description": "The SVN username that is used to checkout the application code from SVN repository..If you use git just change value to $ignore"
+    },
+    "tomcat/code/root_war": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code"
+      ],
+      "display_name": "War file for ROOT",
+      "description": "The name of the war file to be renamed to ROOT.war. Ex: myapplication.war"
+    },
+    "tomcat/code/url": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code",
+        "app_tomcat::default"
+      ],
+      "display_name": "Repository URL",
+      "description": "Specify the URL location of the repository that contains the application code. Ex: git://github.com/mysite/myapp.git"
+    },
+    "tomcat/java": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "hash",
+      "recipes": [
+
+      ],
+      "display_name": "Tomcat java settings"
+    },
+    "tomcat/java/xmx": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::setup_tomcat_configs"
+      ],
+      "display_name": "Tomcat Java XMX",
+      "description": "The java Xmx argument (i.e. 512m)"
+    },
+    "tomcat/db_adapter": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+        "mysql",
+        "postgres"
+      ],
+      "default": "mysql",
+      "type": "string",
+      "recipes": [
+        "app_tomcat::default",
+        "app_tomcat::setup_db_connection"
+      ],
+      "display_name": "Database Adapter",
+      "description": "Database adapter to connect to Database. (Ex: mysql)"
+    },
+    "tomcat/code/svn_password": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "",
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code"
+      ],
+      "display_name": "SVN password",
+      "description": "The SVN password that is used to checkout the application code from SVN repository..If you use git just change value to $ignore"
+    },
+    "tomcat/code/credentials": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code",
+        "app_tomcat::default"
+      ],
+      "display_name": "Repository Credentials",
+      "description": "The private SSH key of the git repository."
+    },
+    "tomcat/code/repo_type": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+        "git",
+        "svn"
+      ],
+      "default": "git",
+      "type": "string",
+      "recipes": [
+        "app_tomcat::do_update_code"
+      ],
+      "display_name": "Repository Type",
+      "description": "Choose type of Repository: SVN or GIT"
+    },
+    "tomcat/java/xms": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "app_tomcat::setup_tomcat_configs"
+      ],
+      "display_name": "Tomcat Java XMS",
+      "description": "The java Xms argument (i.e. 512m)"
+    },
+    "tomcat": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "hash",
+      "recipes": [
+
+      ],
+      "display_name": "Tomcat Application Settings"
+    }
+  },
+  "maintainer": "RightScale, Inc.",
+  "replacing": {
+  },
+  "license": "Apache v2.0",
+  "maintainer_email": "support@rightscale.com",
+  "name": "app_tomcat",
+  "groupings": {
+  },
+  "dependencies": {
+    "db_mysql": [
+
+    ],
+    "app": [
+
+    ],
+    "db_postgres": [
+
+    ],
+    "repo_git": [
+
+    ],
+    "rs_utils": [
+
+    ]
+  },
+  "recommendations": {
+  }
+}
