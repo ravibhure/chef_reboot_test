@@ -102,16 +102,16 @@ action :post_backup_cleanup do
 end
 
 action :set_privileges do
-  bash "install_apache_tomcat_7" do
+  bash "Check_REBOOT" do
   flags "-ex"
     code <<-EOH
-      if test "$RS_REBOOT" = "true" ; then
+      if test "$RS_ALREADY_BOOTED" = "true" ; then
         echo "Skip on reboot."
         logger -t RightScale "Skipping for a reboot."
         exit 0 # Leave with a smile ...
       fi
     EOH
-  end  
+  end
   priv = new_resource.privilege
   priv_username = new_resource.privilege_username
   priv_password = new_resource.privilege_password
