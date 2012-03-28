@@ -105,7 +105,8 @@ action :set_privileges do
   bash "Check_REBOOT" do
   flags "-ex"
     code <<-EOH
-      if test "$RS_ALREADY_BOOTED" = "true" ; then
+      boot_state=$(sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js)
+      if test "$boot_state" = "true" ; then
         echo "Skip on reboot."
         logger -t RightScale "Skipping for a reboot."
         exit 0 # Leave with a smile ...
