@@ -102,11 +102,10 @@ action :post_backup_cleanup do
 end
 
 action :set_privileges do
-  ENV['IMPORTANT_VAR'] = `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js`
   bash "Check_REBOOT" do
     code <<-EOH
-	echo "RAKETEST=$IMPORTANT_VAR"
-	sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js > /tmp/state
+	echo RS_ALREADY_BOOTED=$RS_ALREADY_BOOTED
+	echo `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js` > /tmp/state
         boot_state=`cat /tmp/state`
 	echo "RAJESH=$boot_state"
       if test "$boot_state" = "true" ; then
