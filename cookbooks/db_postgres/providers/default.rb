@@ -102,27 +102,21 @@ action :post_backup_cleanup do
 end
 
 action :set_privileges do
-  bash "Check_REBOOT" do
-    code <<-EOH
-#	echo RS_ALREADY_BOOTED=$RS_ALREADY_BOOTED
-#	echo `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js` > /tmp/state
-	boot_state=`sed -e 's/.*\"reboot\":\\([^,}]*\\).*/\\1/' /etc/rightscale.d/state.js`
-      if test "$boot_state" = "true" ; then
-        echo "Skip on reboot."
-        logger -t RightScale "Skipping for a reboot."
-        exit 0 # Leave with a smile ...
-      fi
-    EOH
-  end
   priv = new_resource.privilege
   priv_username = new_resource.privilege_username
   priv_password = new_resource.privilege_password
   priv_database = new_resource.privilege_database
-  db_postgres_set_privileges "setup db privileges" do
-    preset priv
-    username priv_username
-    password priv_password
-    database priv_database
+  boot_state = `sed -e 's/.*\"reboot\":\\([^,}]*\\).*/\\1/' /etc/rightscale.d/state.js`
+  if ( boot_state == "true")
+    Chef::Log.info "Not need to re-run the recipe on reboot"
+    exit! 0
+  else
+    db_postgres_set_privileges "setup db privileges" do
+      preset priv
+      username priv_username
+      password priv_password
+      database priv_database
+    end
   end
 end
 
