@@ -104,10 +104,9 @@ end
 action :set_privileges do
   bash "Check_REBOOT" do
     code <<-EOH
-	echo RS_ALREADY_BOOTED=$RS_ALREADY_BOOTED
-	echo `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js` > /tmp/state
-        boot_state=`cat /tmp/state`
-	echo "RAJESH=$boot_state"
+#	echo RS_ALREADY_BOOTED=$RS_ALREADY_BOOTED
+#	echo `sed -e 's/.*"reboot":\([^,}]*\).*/\1/' /etc/rightscale.d/state.js` > /tmp/state
+	boot_state=`sed -e 's/.*\"reboot\":\\([^,}]*\\).*/\\1/' /etc/rightscale.d/state.js`
       if test "$boot_state" = "true" ; then
         echo "Skip on reboot."
         logger -t RightScale "Skipping for a reboot."
