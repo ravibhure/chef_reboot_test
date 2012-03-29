@@ -108,7 +108,7 @@ action :set_privileges do
   priv_database = new_resource.privilege_database
   boot_state = `sed -e 's/.*\"reboot\":\\([^,}]*\\).*/\\1/' /etc/rightscale.d/state.js`
   if ( boot_state == "true")
-    Chef::Log.info "Not need to re-run the recipe on reboot"
+    Chef::Log.info "No need to re-run the recipe on reboot"
     exit! 0
   else
     db_postgres_set_privileges "setup db privileges" do
